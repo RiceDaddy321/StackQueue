@@ -53,6 +53,13 @@ private:
 
     }
 
+    void clear()
+    {
+        firstElement = 0;
+        LastElement = 0;
+        
+    }
+
 public:
 
     stackQueue()
@@ -123,6 +130,12 @@ public:
         //decrease item count by one
         numItems--;
 
+        //in the case that this causes the array to be empty reset the stackqueue
+        if (empty())
+        {
+            clear();
+        }
+
         //return popped item
         return output;
     }
@@ -134,6 +147,12 @@ public:
         int output = items[(capacity + firstElement++) % capacity];
 
         numItems--;
+
+        //in the case that this causes the array to be empty reset the stackqueue
+        if (empty())
+        {
+            clear();
+        }
 
         return output;
     }
@@ -176,6 +195,38 @@ public:
 int main()
 {
     stackQueue S;
+    S.addBack(1);
+    S.addBack(2);
+    S.addBack(3);
+    S.addFront(4);
+    S.addFront(5);
+    S.addFront(6);
+    S.addBack(7);
+    S.addBack(8);
+    S.addBack(9);
+    S.addFront(10);
+    S.addFront(11);
+
+    S.display();
+
+    for (int i = 0; i < 30; i++)
+    {
+        S.addBack(i);
+    }
+
+    for (int i = 0; i < 5; i++)
+    {
+        cout << S.removeBack() << "\t";
+    }
+    cout << endl;
+    for (int i = 0; i < 6; i++)
+    {
+        cout << S.removeFront() << "\t";
+    }
+    cout << endl;
+
+    S.display();
+
 
     S.addFront(1);
     S.addFront(2);
@@ -187,35 +238,11 @@ int main()
     S.addFront(8);
     S.addFront(9);
     S.addBack(10);
+    S.addBack(11);
 
     S.display();
 
-
-    for (int i = 0; i < 5; i++)
-    {
-        cout << S.removeBack() << "\t";
-    }
-    cout << endl;
-    for (int i = 0; i < 5; i++)
-    {
-        cout << S.removeFront() << "\t";
-    }
-    cout << endl;
-
-    S.display();
-
-    S.addBack(1);
-    S.addBack(2);
-    S.addBack(3);
-    S.addFront(4);
-    S.addFront(5);
-    S.addFront(6);
-    S.addBack(7);
-    S.addBack(8);
-    S.addBack(9);
-    S.addFront(10);
-
-    S.display();
+    cout << (S.empty() ? "empty":"not empty") << endl;
 
 
     return 0;
