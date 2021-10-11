@@ -2,6 +2,8 @@
 #include <string>
 #include <sstream>
 /*
+    Author: @Juan Velazquez
+    Class: CSCI 2380
 You will see this a lot: (capacity + firstElement++) % capacity
 it essentially works to give the index of the element even when firstElement is negative.
 The reason I have it like this is because adding elements to the back is going right
@@ -12,12 +14,12 @@ elements to get pushed back.
 
 using namespace std;
 
-//template <class T>
+template <class T>
 class stackQueue
 {
 private:
     //Actual array to store items
-    int* items;
+    T* items;
     //Maximum amount of elements
     int capacity;
 
@@ -32,8 +34,8 @@ private:
     void resize(int newCap)
     {
         //Step 1: Create a new (bigger) array of size newCap
-        int* newArray;
-        newArray = new int[newCap];
+        T* newArray;
+        newArray = new T[newCap];
 
         //Step 2: copy value from old array over to the new array, but in order to keep
         //the array circular you need to move the first elements to the back of the new array
@@ -64,23 +66,15 @@ public:
 
     stackQueue()
     {
-        items = new int[10];
+        items = new T[10];
         capacity = 10;
         numItems = 0;
         firstElement = 0;
         LastElement = 0;
     }
-    //i'm using g++ and there is a bug with to_string, credit to @galik from stackoverflow
-    template<typename ValueType>
-    static string stringulate(ValueType v)
-    {
-        std::ostringstream oss;
-        oss << v;
-        return oss.str();
-    }
 
     //Insert x to the "back" of the list of items.
-    void addBack(int x)
+    void addBack(T x)
     {
         //RESIZE THE ARRAY BEFORE addBack
         if (numItems == capacity)
@@ -102,7 +96,7 @@ public:
     }
 
     //Add x to the "front" of the list of items.
-    void addFront(int x)
+    void addFront(T x)
     {
         if (numItems == capacity)
         {
@@ -122,10 +116,10 @@ public:
     }
 
     //Remove and return the item currently at the "back" of the list
-    int removeBack()
+    T removeBack()
     {
         //Write down value to be returned
-        int output = items[LastElement--];
+        T output = items[LastElement--];
 
         //decrease item count by one
         numItems--;
@@ -141,10 +135,10 @@ public:
     }
 
     //Remove and return the item currently at the "front" of the list
-    int removeFront()
+    T removeFront()
     {
         //get the value at index then increment down firstElement
-        int output = items[(capacity + firstElement++) % capacity];
+        T output = items[(capacity + firstElement++) % capacity];
 
         numItems--;
 
@@ -190,60 +184,31 @@ public:
             cout << "[]" << endl;
         }
     }
+    //i'm using g++ and there is a bug with to_string, credit to @galik from stackoverflow
+    template<typename ValueType>
+    static string stringulate(ValueType v)
+    {
+        std::ostringstream oss;
+        oss << v;
+        return oss.str();
+    }
 };
 
 int main()
 {
-    stackQueue S;
-    S.addBack(1);
-    S.addBack(2);
-    S.addBack(3);
-    S.addFront(4);
-    S.addFront(5);
-    S.addFront(6);
-    S.addBack(7);
-    S.addBack(8);
-    S.addBack(9);
-    S.addFront(10);
-    S.addFront(11);
+    stackQueue <int> intStk;
+    stackQueue <string> strStk;
 
-    S.display();
+    intStk.addBack(0);
+    intStk.addBack(1);
+    intStk.addFront(3);
 
-    for (int i = 0; i < 30; i++)
-    {
-        S.addBack(i);
-    }
+    strStk.addBack("one");
+    strStk.addBack("two");
+    strStk.addFront("three");
 
-    for (int i = 0; i < 5; i++)
-    {
-        cout << S.removeBack() << "\t";
-    }
-    cout << endl;
-    for (int i = 0; i < 6; i++)
-    {
-        cout << S.removeFront() << "\t";
-    }
-    cout << endl;
-
-    S.display();
-
-
-    S.addFront(1);
-    S.addFront(2);
-    S.addFront(3);
-    S.addBack(4);
-    S.addBack(5);
-    S.addBack(6);
-    S.addFront(7);
-    S.addFront(8);
-    S.addFront(9);
-    S.addBack(10);
-    S.addBack(11);
-
-    S.display();
-
-    cout << (S.empty() ? "empty":"not empty") << endl;
-
+    intStk.display();
+    strStk.display();
 
     return 0;
 }
